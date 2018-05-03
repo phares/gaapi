@@ -1,0 +1,4 @@
+cx-Oracle==6.2.1
+django-oauth-toolkit==1.1.0
+djangorestframework==3.8.2
+Pygments==2.2.0
