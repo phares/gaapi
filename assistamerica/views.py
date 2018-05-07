@@ -1,13 +1,16 @@
 from rest_framework import viewsets, permissions, serializers
 from rest_framework.response import Response
 import cx_Oracle
-
 from assistamerica.serializers import PolicySerializer
+from decouple import config
 
 
 class Policy(viewsets.ViewSet):
     serializer_class = PolicySerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        return None
 
     def policy(self, request, *args, **kwargs):
 
@@ -17,10 +20,11 @@ class Policy(viewsets.ViewSet):
 
         try:
             policy_no = request.data.get('policy_no')
-            con = cx_Oracle.connect('')
+            db_credentials = config('DB_CREDENTIALS')
+            con = cx_Oracle.connect(db_credentials)
             cur = con.cursor()
-            params = {'policy_no': policy_no, 'limit': 1}  # ''
-            cur.execute('select * from ga_assist where pol_no = :policy_no and ROWNUM <= :limit', params)
+            params = {'policy_no': policy_no, 'limit': 1}
+            cur.execute('select * from  where pol_no = :policy_no and ROWNUM <= :limit', params)
 
             for p in cur:
                 count += 1
@@ -37,11 +41,11 @@ class Policy(viewsets.ViewSet):
             if count == 0:
 
                 policy_dict["policy_no"] = policy_no
-                policy_dict["detail"] = "No record found"
+                policy_dict["detail"] = "No record matching policy no. found"
                 policy_dict["result"] = False
 
         except Exception as e:
-            policy_dict["detail"] = e.args
+            policy_dict["detail"] = 'Unable to fetch result'
             policy_dict["result"] = False
 
         result_list.append(policy_dict)
