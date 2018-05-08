@@ -7,10 +7,11 @@ from decouple import config
 
 class Policy(viewsets.ViewSet):
     serializer_class = PolicySerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        return None
+        res = None
+        return Response(res)
 
     def policy(self, request, *args, **kwargs):
 
