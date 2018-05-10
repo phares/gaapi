@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('v1/assist/', include('assistamerica.urls')),
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('admin/', admin.site.urls),
+    path('allow_me/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('express/', admin.site.urls),
 ]
 

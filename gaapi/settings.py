@@ -71,8 +71,10 @@ REST_FRAMEWORK = {
 }
 
 OAUTH2_PROVIDER = {
-    # this is the list of available scopes
-    'SCOPES': {'read': 'Read scope'}
+    'SCOPES': {'read': 'Read scope'},
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 60 * 60,
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 2 * 60 * 60,  # 2 hours
+    'ROTATE_REFRESH_TOKEN': True,  # Sends a new refresh token when a access token is refreshed.
 }
 
 # DATABASES = {
