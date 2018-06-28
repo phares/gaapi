@@ -8,6 +8,7 @@ from decouple import config
 class Policy(viewsets.ViewSet):
     serializer_class = PolicySerializer
     permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
         res = None
@@ -25,7 +26,7 @@ class Policy(viewsets.ViewSet):
             con = cx_Oracle.connect(db_credentials)
             cur = con.cursor()
             params = {'policy_no': policy_no, 'limit': 1}
-            cur.execute('select * from  where pol_no = :policy_no and ROWNUM <= :limit', params)
+            cur.execute('select * from ga_assist where pol_no = :policy_no and ROWNUM <= :limit', params)
 
             for p in cur:
                 count += 1
