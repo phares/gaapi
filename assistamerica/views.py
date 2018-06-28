@@ -7,7 +7,7 @@ from decouple import config
 
 class Policy(viewsets.ViewSet):
     serializer_class = PolicySerializer
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
         res = None
@@ -30,13 +30,15 @@ class Policy(viewsets.ViewSet):
             for p in cur:
                 count += 1
                 policy_dict["policy_no"] = p[0]
-                policy_dict["assr_code"] = p[1]
-                policy_dict["assr_name"] = p[2]
-                policy_dict["email_id"] = p[3]
-                policy_dict["telephone_no"] = p[4]
-                policy_dict["from_date"] = p[5]
-                policy_dict["to_date"] = p[6]
-                policy_dict["flex"] = p[7]
+                policy_dict["online_ref_no"] = p[1]
+                policy_dict["cust_code"] = p[2]
+                policy_dict["cust_name"] = p[3]
+                policy_dict["assr_code"] = p[4]
+                policy_dict["assr_name"] = p[5]
+                policy_dict["email_id"] = p[6]
+                policy_dict["telephone_no"] = p[7]
+                policy_dict["from_date"] = p[8]
+                policy_dict["to_date"] = p[9]
                 policy_dict["result"] = True
 
             if count == 0:
@@ -46,12 +48,13 @@ class Policy(viewsets.ViewSet):
                 policy_dict["result"] = False
 
         except Exception as e:
-            policy_dict["detail"] = 'Unable to fetch result'
+            policy_dict["detail"] = str(e)  # 'Unable to fetch result'
             policy_dict["result"] = False
 
         result_list.append(policy_dict)
         policy = PolicySerializer(result_list, many=True).data
         return Response(policy)
+
 
 
 
